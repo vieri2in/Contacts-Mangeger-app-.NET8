@@ -1,0 +1,133 @@
+﻿@model PersonAddRequest
+@{
+    ViewBag.Title = "Create Person";
+    ViewBag.CurrentUrl = "~/Persons/Create";
+}
+<div class="flex">
+    <div class="flex-1">
+        <div class="text-grey">
+            <span>Contacts</span>
+            <i class="fa-solid fa-caret-right"></i>
+            <span>Persons</span>
+            <i class="fa-solid fa-caret-right"></i>
+            <span>Create</span>
+        </div>
+    </div>
+</div>
+<div class="form-container">
+    <a class="link-hover" asp-controller="Persons" asp-action="Index">Back</a>
+    <h2 class="text-large">Persons Creation page</h2>
+    <form asp-controller="Persons" asp-action="Create" method="post">
+        @* PersonName *@
+        <div class="form-field flex">
+            <div class="w-25">
+                <label asp-for="PersonName" class="form-label pt">Peroson Name</label>
+            </div>
+            <div class="flex-1">
+                <input asp-for="PersonName" class="form-input" />
+                <span asp-validation-for="PersonName" class="text-red"></span>
+            </div>
+        </div>
+        @* Email *@
+        <div class="form-field flex">
+            <div class="w-25">
+                <label asp-for="Email" class="form-label pt">Email</label>
+            </div>
+            <div class="flex-1">
+                <input asp-for="Email" class="form-input" />
+                <span asp-validation-for="Email" class="text-red"></span>
+            </div>
+        </div>
+        @* DateOfBirth *@
+        <div class="form-field flex">
+            <div class="w-25">
+                <label asp-for="DateOfBirth" class="form-label pt">Date of Birth</label>
+            </div>
+            <div class="flex-1">
+                <input asp-for="DateOfBirth" class="form-input" />
+            </div>
+        </div>
+        @* Gender *@
+        <div class="form-field flex">
+            <div class="w-25">
+                <label for="Gender" class="form-label pt">Gender</label>
+            </div>
+            <div class="flex-1">
+                @* <input type="radio" name="Gender" id="Male" value="Male" />
+                <label for="Male">Male</label>
+                <input type="radio" name="Gender" id="Female" value="Female" />
+                <label for="Female">Female</label>
+                <input type="radio" name="Gender" id="Other" value="Other" />
+                <label for="Other">Other</label> *@
+                @{
+                    string[] genders = (string[])Enum.GetNames(typeof(GenderOptions));
+                }
+                @foreach (string gender in genders)
+                {
+                    <input type="radio" id="@gender" name="Gender" value="@gender" />
+                    <label for="@gender">@gender</label>
+                }
+                <span asp-validation-for="Gender" class="text-red"></span>
+            </div>
+        </div>
+        @* CountryId *@
+        <div class="form-field flex">
+            <div class="w-25">
+                <label asp-for="CountryId" class="form-label pt">Country</label>
+            </div>
+            <div class="flex-1">
+                <select asp-for="CountryId" asp-items="@ViewBag.Countries" class="form-input">
+                    <option value="">Please Select</option>
+                </select>
+                <span asp-validation-for="CountryId" class="text-red"></span>
+            </div>
+        </div>
+        @* Address *@
+        <div class="form-field flex">
+            <div class="w-25">
+                <label asp-for="Address" class="form-label pt">Address</label>
+            </div>
+            <div class="flex-1">
+                <textarea asp-for="Address" class="form-input"></textarea>
+            </div>
+        </div>
+        @* ReceiveNewLetters *@
+        <div class="form-field flex">
+            <div class="w-25">
+                <label asp-for="ReceiveNewLetters" class="form-label pt">Receive News Letters</label>
+            </div>
+            <div class="flex-1">
+                <input type="radio" name="ReceiveNewLetters" id="true" value="true" />
+                <label for="true">Yes</label>
+                <input type="radio" name="ReceiveNewLetters" id="false" value="false" checked="checked" />
+                <label for="false">No</label>
+            </div>
+        </div>
+        @* Submit *@
+        <div class="form-field flex">
+            <div class="w-25">
+            </div>
+            <div class="flex-1">
+                <button type="submit" class="button button-green-back">Create</button>
+                <div asp-validation-summary="All" class="text-red">
+                @if (ViewBag.Errors != null)
+                {
+                    <div class="text-green ml">
+                        <ul>
+                            @foreach (string error in ViewBag.Errors)
+                            {
+                                <li class="ml">@error</li>
+                            }
+                        </ul>
+                    </div>
+                }
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@section scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js" integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js" integrity="sha512-xq+Vm8jC94ynOikewaQXMEkJIOBp7iArs3IhFWSWdRT3Pq8wFz46p+ZDFAR7kHnSFf+zUv52B3prRYnbDRdgog==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+}
